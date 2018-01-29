@@ -58,36 +58,36 @@ clean:
 
 <strong>Example run:</strong>
 
-![example run of vuln](res/normal_run.png)
+![example run of vuln](assets/2017-12-6-shellcoding/normal_run.png)
 
 
 ## Exploitation
 
 We can see that this program is indeed vulnerable to a buffer overflow by providing it more input than it has to store:
 
-![example run of vuln with overflow](res/overflowed.png)
+![example run of vuln with overflow](assets/2017-12-6-shellcoding/overflowed.png)
 
 To exploit the buffer overflow in this program, we will place shellcode on the stack and overflow the return address to point to the beginning of our code on the stack:
 
-![stack_diagram](res/stack1.png)
+![stack_diagram](assets/2017-12-6-shellcoding/stack1.png)
 
 To test our current understanding of the stack, we can try and overflow the target program, overwriting the return address and cause a segmentation fault:
 
-![no segfault](res/no_segfault.png)
+![no segfault](assets/2017-12-6-shellcoding/no_segfault.png)
 
 There was no segmentation fault? Maybe our current understanding of the stack is flawed. Let's disassemble the program to see what's up.
 
 `objdump -d vuln`
 
-![preable and call of first function within getinput()](res/get_input_disassembled.png)
+![preable and call of first function within getinput()](assets/2017-12-6-shellcoding/get_input_disassembled.png)
 
 From the preamble of this function call, we can see that the program allocates 0x48 bytes of storage on the stack. This does not make much since since our function only requires 0x40 (64) bytes to store the contents of `buffer[64]`. So why is this? [With some research](https://stackoverflow.com/questions/4175281/what-does-it-mean-to-align-the-stack), it appears that this is because the x86 architecture has some instructions that can run in parallel, but only when the stack pointer is aligned on a 16-byte boundary. In order to align `$esp ` to the boundary, the compiler needs to create an 8 byte gap at the end of the stack frame. This should not change our plan of attack, we just need to overflow the buffer by 8 more bytes to overcome this gap. 
 
-![modified stack diagram](res/stack2.png)
+![modified stack diagram](assets/2017-12-6-shellcoding/stack2.png)
 
 Now that we have a new understanding of the stack, we can try again to exploit it:
 
-![return address overflowed](res/overflowed_return_address.png)
+![return address overflowed](assets/2017-12-6-shellcoding/overflowed_return_address.png)
 
 We have successfully overwritten the return address of the function! Now we need to write some shellcode and change the return address of the program to point to it.
 
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 
 This program will take in the address of `buffer[64]` and creates the exploit string that runs our shellcode. The exploit string is made from our shellcode, a string of NOPs (\x90) for padding, the address that we will begin our new stack, and the address to the beginning of our shellcode.
 
-![successful run of exploit.py](res/success.png)
+![successful run of exploit.py](assets/2017-12-6-shellcoding/success.png)
 
 We can now see that the program successfully runs our shellcode and prints SUCCESS! to standard output.
 
