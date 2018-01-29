@@ -44,7 +44,7 @@ Turn off ASLR:
 `sudo sh -c "echo 0 >> /proc/sys/kernel/randomize_va_space"`
 
 <strong>Makefile</strong>
-```Make
+```make
 CC=gcc
 
 all: vuln
@@ -96,7 +96,7 @@ We have successfully overwritten the return address of the function! Now we need
 Actually writing shellcode is quite easy. You can do this by writing some assembly and assembling it. Then you can extract the binary from the object file. My framework for shellcode development can be found [here](https://github.com/gilderjw/shellcode). Another good resource is [shell-storm.org](http://shell-storm.org/shellcode/). This website has a bunch of different examples of shellcode for different architectures. One thing to keep in mind when writing shellcode is that you cannot have any null bytes if the overflow is due to a call to `gets()`. To overcome this restriction, an attacker has to get a little creative to accomplish their goal.
 
 <strong>My shellcode:</strong>
-```asm
+```nasm
 .section .text
 .intel_syntax noprefix
 .global main
