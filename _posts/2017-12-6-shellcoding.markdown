@@ -12,7 +12,7 @@ Shellcode is a small piece of code written by an attacker of a software system. 
 ## The target
 
 <strong>vuln.c</strong>
-```C
+```c
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
