@@ -6,7 +6,7 @@ date: 2017-12-11
 
 [Last week](http://j33m.net/2017/12/06/shellcode/), I went over Shellcoding and provided an example of how you can get arbitrary code to run due to a buffer overflow vulnerability in a simple program. I began by compiling the target application with a bunch of flags that turn off various mitigation techniques. One such mitigation technique is non-executable (NX) stack memory. In modern machines, when a process is started and its address space is created, the operating system will mark user controlled memory as NX so that if an attacker is able to gain control of the value of the program counter, they cannot simply jump to code that they have written to the stack or the heap. Because of this mitigation technique, the exploit that we developed last time is useless.
 
-![old exploit when NX is enabled](assets/2017-12-11-return-oriented-programming-rop/old_exploit.png)
+![old exploit when NX is enabled](/assets/2017-12-11-return-oriented-programming-rop/old_exploit.png)
 
 This segmentation fault occurs because the program tries to execute code that is marked NX. The operating system catches this and terminates the process.
 
@@ -26,11 +26,11 @@ A ropchain is a full program written with return-oriented programming consisting
 
 ROP works because of the calling convention in x86. At the end of a function, registers are cleaned up with a `leave` instruction. This instruction is functionally the same as `mov esp, ebp; pop ebp`. Following the `leave` instruction is a `ret`. This instruction is functionally equivilant to `pop eip`. 
 
-![stack diagram of end of function x86](assets/2017-12-11-return-oriented-programming-rop/stack_diagram.png)
+![stack diagram of end of function x86](/assets/2017-12-11-return-oriented-programming-rop/stack_diagram.png)
 
 In the figure above, we can see the effect of the `leave` instruction at T=1. At the end of this instruction, `esp` points at the old return address `ebp` points at the base of the calling stack frame. At T=2, the return address stored on the stack is popped and `eip` is set. In normal execution, this would be the end of this interesting mechanism and the calling function would continue execution. In the ROP case, the return address is the address of a gadget that ends in a `ret` instruction.
 
-![stack while ropchain is executing](assets/2017-12-11-return-oriented-programming-rop/rop_stack.png)
+![stack while ropchain is executing](/assets/2017-12-11-return-oriented-programming-rop/rop_stack.png)
 
 Once the first gadget in the chain is done, the `ret` instruction is executed. This is the same as `pop eip`, so the program counter now goes to the second gadget since it is now at the top of the stack. This chain of addresses continues to execute until a gadget ends without a `ret`. The final gadget usually ends in a `call` or an `int` instruction since we typically set up a function to call.
 
