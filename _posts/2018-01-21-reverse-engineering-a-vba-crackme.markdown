@@ -144,4 +144,3 @@ while True:
 
 * Try to read a little assembly as possible. 
   * Reading and understanding assembly is much more time consuming then looking at strings and function names and verifying in a debugger
-
