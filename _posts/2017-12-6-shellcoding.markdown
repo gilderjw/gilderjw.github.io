@@ -2,6 +2,7 @@
 title: Shellcoding
 layout: post
 date: 2017-12-06
+categories: exploitation
 ---
 # Shellcode
 

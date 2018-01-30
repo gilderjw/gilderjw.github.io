@@ -2,6 +2,7 @@
 title: Reverse Engineering the FuriBee F36 RC Quadcopter
 layout: post
 date: 2018-01-28
+categories: hardware
 ---
 
 A couple months ago, I bought a FuriBee F36 RC Quadcopter to play around with. After a bit, I began to wonder how it works. In this writeup, I will discuss the beginning of my journey to get a firmware dump of this neat little drone.

@@ -2,6 +2,7 @@
 title: Applied Return-Oriented Programming (ROP)
 layout: post
 date: 2017-12-18
+categories: exploitation
 ---
 
 [Last time](https://j33m.net/2017/12/11/return-oriented-programming-rop/), we discussed that ROP is a technique that can be used to run arbitrary code in a vulnerable application when the stack is marked as non-executable. This time, I will go over an example of how to build a ropchain using libc on a simple application. I will assume that you already know what ROP is and have a general idea of how it works. If this is not the case, go ahead and read my last post.

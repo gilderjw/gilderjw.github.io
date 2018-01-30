@@ -2,6 +2,7 @@
 title: Reverse Engineering a VBA Crackme
 layout: post
 date: 2018-1-21
+categories: reversing
 ---
 
 This time, we will go over the process that I used to solve [this Crackme](/assets/2018-01-21-reverse-engineering-a-vba-crackme/Keygen_me.zip) that I using IDA Pro and WinDbg.
