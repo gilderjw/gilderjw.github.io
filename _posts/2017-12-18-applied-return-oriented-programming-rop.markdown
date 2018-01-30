@@ -5,7 +5,7 @@ date: 2017-12-18
 categories: exploitation
 ---
 
-[Last time](https://j33m.net/2017/12/11/return-oriented-programming-rop/), we discussed that ROP is a technique that can be used to run arbitrary code in a vulnerable application when the stack is marked as non-executable. This time, I will go over an example of how to build a ropchain using libc on a simple application. I will assume that you already know what ROP is and have a general idea of how it works. If this is not the case, go ahead and read my last post.
+[Last time](/exploitation/2017/12/11/return-oriented-programming-rop.html), we discussed that ROP is a technique that can be used to run arbitrary code in a vulnerable application when the stack is marked as non-executable. This time, I will go over an example of how to build a ropchain using libc on a simple application. I will assume that you already know what ROP is and have a general idea of how it works. If this is not the case, go ahead and read my last post.
 
 ## The Target
 
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 }
 ```
 
-This simple program is pretty similar to to the one from my [shellcoding post](https://j33m.net/2017/12/06/shellcode/). It just takes input from the user and prints it back. The main difference is that now, instead of getting input from the user using the `gets()` function, it uses the `read()` function. This function will read up to a certain amount of bytes determined by the third parameter of the function. It will also stop earlier if it is unable to read any more bytes from the given file. The reason we are using this function is because it will not terminate on a null byte. This makes the chain easier to build since we can use gadgets that have null bytes in the address.
+This simple program is pretty similar to to the one from my [shellcoding post](/exploitation/2017/12/06/shellcoding.html). It just takes input from the user and prints it back. The main difference is that now, instead of getting input from the user using the `gets()` function, it uses the `read()` function. This function will read up to a certain amount of bytes determined by the third parameter of the function. It will also stop earlier if it is unable to read any more bytes from the given file. The reason we are using this function is because it will not terminate on a null byte. This makes the chain easier to build since we can use gadgets that have null bytes in the address.
 
 Again, we will turn off [ASLR](https://en.wikipedia.org/wiki/Address_space_layout_randomization) for convenience:
 
@@ -182,7 +182,7 @@ def generate_rop():
 
 #### Padding the Input
 
-Our script now generates the ropchain itself, but now we have to overflow the buffer to get control of `$eip`. To do this, we need to generate enough padding to overflow the original buffer along with any padding due to the fact that the function will begin with `$esp` on a 16-byte boundary. [In my post about shellcoding](https://j33m.net/2017/12/06/shellcode/), we found the amount of padding by looking at the disassembled preamble of the function to see how much stack space was allocated for the function. In this case, it is a little less straightforward.
+Our script now generates the ropchain itself, but now we have to overflow the buffer to get control of `$eip`. To do this, we need to generate enough padding to overflow the original buffer along with any padding due to the fact that the function will begin with `$esp` on a 16-byte boundary. [In my post about shellcoding](/exploitation/2017/12/06/shellcoding.html), we found the amount of padding by looking at the disassembled preamble of the function to see how much stack space was allocated for the function. In this case, it is a little less straightforward.
 
 ![disassembly of the getinput() function](/assets/2017-12-18-applied-return-oriented-programming-rop/getinput_disassembly.png)
 

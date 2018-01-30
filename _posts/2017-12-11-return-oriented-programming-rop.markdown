@@ -5,7 +5,7 @@ date: 2017-12-11
 categories: exploitation
 ---
 
-[Last week](http://j33m.net/2017/12/06/shellcode/), I went over Shellcoding and provided an example of how you can get arbitrary code to run due to a buffer overflow vulnerability in a simple program. I began by compiling the target application with a bunch of flags that turn off various mitigation techniques. One such mitigation technique is non-executable (NX) stack memory. In modern machines, when a process is started and its address space is created, the operating system will mark user controlled memory as NX so that if an attacker is able to gain control of the value of the program counter, they cannot simply jump to code that they have written to the stack or the heap. Because of this mitigation technique, the exploit that we developed last time is useless.
+[Last week](/exploitation/2017/12/06/shellcoding.html), I went over Shellcoding and provided an example of how you can get arbitrary code to run due to a buffer overflow vulnerability in a simple program. I began by compiling the target application with a bunch of flags that turn off various mitigation techniques. One such mitigation technique is non-executable (NX) stack memory. In modern machines, when a process is started and its address space is created, the operating system will mark user controlled memory as NX so that if an attacker is able to gain control of the value of the program counter, they cannot simply jump to code that they have written to the stack or the heap. Because of this mitigation technique, the exploit that we developed last time is useless.
 
 ![old exploit when NX is enabled](/assets/2017-12-11-return-oriented-programming-rop/old_exploit.png)
 
