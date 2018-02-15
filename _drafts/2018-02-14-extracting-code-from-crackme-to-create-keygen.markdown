@@ -105,7 +105,12 @@ Carving out the code for the custom hash function proved to be a much harder tas
 
 I started by producing an ASM file with IDA and tried to reassemble. It turns out that IDA does not actually produce assembly code that can be assembled by gas or nasm. Luckily I found a [nice ida script](https://github.com/gilderjw/abduction_crackme_solution/blob/master/generate_nasm.idc) that turns the IDA assembly of the current function selected into something pretty close to nasm. I extracted the main function into something that I could call from my own IDAPython script.
 
-After learning some basics about writing an IDAPython script, I made [this one](https://github.com/gilderjw/abduction_crackme_solution/blob/master/get_instructions.py) to recursively disassemble all function that `intersting_hash_stuff` depended on. Standard library functions called were omitted from the disassembly so that they could just be linked in when making the final product.
+After learning some basics about writing an IDAPython script, I made [this one](https://github.com/gilderjw/abduction_crackme_solution/blob/master/get_instructions.py) to recursively disassemble all function that `intersting_hash_stuff` depended on. Standard library functions called were omitted from the disassembly so that they could just be linked in when making the final product. The output of my script then had to go through a couple regex replaces in a text editor and references to the data segment had to be fixed before I had a perfectly fine assembly. I also removed the equality check from `interesting_hash_stuff` so it would return the value of the password instead of the value of the comparison.
+
+![comparison removed from interesting_hash_stuff](./assets/2018-02-14-extracting-code-from-crackme-to-create-keygen/ida_interesting_hash_stuff_3.png)
+
+Once I had my object file generated with nasm, I was able to write my C program:
+
 
 ```C
 #include <stdio.h>
@@ -130,3 +135,9 @@ int main(int argc, char const *argv[])
   return 0;
 }
 ```
+
+When the program was compiled and linked with my carve out of the crackme, I had a working keygen:
+
+![Keygen generate password for j33m](./assets/2018-02-14-extracting-code-from-crackme-to-create-keygen/keygen_j33m.png)
+
+![key tried](./assets/2018-02-14-extracting-code-from-crackme-to-create-keygen/keygen_success.png)
