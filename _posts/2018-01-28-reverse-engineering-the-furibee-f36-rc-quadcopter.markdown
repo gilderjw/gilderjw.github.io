@@ -42,7 +42,7 @@ These results are pretty lame, I did not get anything that I can really use to g
 
 | ![PCB with chip lifted](/assets/2018-01-28-reverse-engineering-the-furibee-f36-rc-quadcopter/IMG_0053.JPG) | ![chip removed from PCB](/assets/2018-01-28-reverse-engineering-the-furibee-f36-rc-quadcopter/IMG_0052.JPG) |
 
-This was the first time I had used a desoldering wick. Because of this, the I no longer have the option to solder the chip back to the PCB and have a working drone. The next time that I have to use a wick will turn out much better based on the quality of the second side that I did.
+This was the first time I had used a desoldering wick. Because of this, I no longer have the option to solder the chip back to the PCB and have a working drone. The next time that I have to use a wick will turn out much better based on the quality of the second side that I did.
 
 To my disappointment, there were no markings on the bottom of the chip. I didn't have my hopes too high, but it would have been nice to have a part number for the IC.
 
